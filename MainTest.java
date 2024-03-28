@@ -1,17 +1,20 @@
 import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
-    @org.junit.jupiter.api.Test
+   @org.junit.jupiter.api.Test
     void calculatePriceDlaCzwartku() {
-        assertEquals(0,Main.calculatePrice(25,"Gdansk","Czwartek"));
+        Person a = new Person(18,false );
+        assertEquals(0,Main.calculatePrice(a, "czwartek"));
     }
     @org.junit.jupiter.api.Test
     void calculatePriceDlaWarszawy() {
-        assertEquals(36,Main.calculatePrice(25,"Warszawa","Poniedzialek"));
+        Person b = new Person(25, true);
+        assertEquals(36,Main.calculatePrice(b,"Poniedzialek"));
     }
     @org.junit.jupiter.api.Test
     void calculatePricePonizej18powyzej10() {
-        assertEquals(20,Main.calculatePrice(15,"Gdansk","Poniedzialek"));
+        Person a = new Person(14,false);
+        assertEquals(20,Main.calculatePrice(a,"Poniedzialek"));
     }
 
 }
