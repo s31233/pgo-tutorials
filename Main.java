@@ -18,7 +18,7 @@ public class Main {
         Person person = new Person(age, isWarsaw);
 
 
-        double ticketPrice = calculateTicketPrice(person, day);
+        double ticketPrice = calculatePrice(person, day);
 
         System.out.println("Dane klienta:");
         System.out.println("Wiek: " + person.getAge());
@@ -26,7 +26,7 @@ public class Main {
         System.out.println("Cena biletu po zniżce: " + ticketPrice + " zł");
     }
 
-    public static double calculateTicketPrice(Person person, String day) {
+    public static double calculatePrice(Person person, String day) {
         double basePrice = 40.0;
         double discount = 0.0;
 
