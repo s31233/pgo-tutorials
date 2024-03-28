@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
-   @org.junit.jupiter.api.Test
+    @org.junit.jupiter.api.Test
     void calculatePriceDlaCzwartku() {
         Person a = new Person(18,false );
         assertEquals(0,Main.calculatePrice(a, "czwartek"));
