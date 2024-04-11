@@ -1,45 +1,28 @@
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        // Tworzenie kont użytkowników
+        User guest1 = new User("guest1@gmail.com");
+        User guest2 = new User("guest2@gmail.com");
+        User user1 = new User("Ania", "Kowal", "ania.kowal@example.com", "password123");
 
-        System.out.println("Podaj wiek:");
-        int age = scanner.nextInt();
-        scanner.nextLine();
+        // Aktualizacja konta gościa do użytkownika
+        guest1.aktualizujDoZarejestrowanegoUzytkownika("Kasia", "Kowal", "password456");
 
-        System.out.println("Podaj dzień tygodnia:");
-        String day = scanner.nextLine();
+        // Tworzenie produktów
+        Product product1 = new Product("Laptop", 1500.00, "ABC123");
+        Product product2 = new Product("Telefon", 800.00, "DEF456", 5);
+        Product product3 = new Product("Glosnik", 100.00, "GHI789");
 
-        System.out.println("Czy mieszkasz w Warszawie? (tak/nie)");
-        String isWarsawInput = scanner.nextLine();
-        boolean isWarsaw = isWarsawInput.equalsIgnoreCase("tak");
+        // Zmiana ceny produktu
+        product1.setCena(1600.00);
 
-        Person person = new Person(age, isWarsaw);
+        // Ustawienie liczby sztuk na 5
+        product3.setLiczbaSztuk(5);
 
-
-        double ticketPrice = calculatePrice(person, day);
-
-        System.out.println("Dane klienta:");
-        System.out.println("Wiek: " + person.getAge());
-        System.out.println("Mieszkaniec Warszawy: " + (person.isWarsaw() ? "Tak" : "Nie"));
-        System.out.println("Cena biletu po zniżce: " + ticketPrice + " zł");
-    }
-
-    public static double calculatePrice(Person person, String day) {
-        double basePrice = 40.0;
-        double discount = 0.0;
-
-        if (person.getAge() < 10 || day.equalsIgnoreCase("czwartek")) {
-            discount += basePrice;
-        } else if (person.getAge() <= 18) {
-            discount += basePrice * 0.5;
-        }
-
-        if (person.isWarsaw()) {
-            discount += basePrice * 0.1;
-        }
-
-        return basePrice - discount;
+        // Wyświetlenie informacji o produktach
+        System.out.println("Informacje o produktach:");
+        System.out.println(product1);
+        System.out.println(product2);
+        System.out.println(product3);
     }
 }
