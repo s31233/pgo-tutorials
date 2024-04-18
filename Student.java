@@ -1,51 +1,57 @@
-import com.sun.jdi.connect.IllegalConnectorArgumentsException;
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-
+//Informacje o studentach wraz z metodami do zarządzania ich stanem
+// - rejestracja na program studiów
+// - dodawanie ocen
+// - promocja do następnego semestru
+// - wyświetlenie informacji
 public class Student {
-    public String fname, lname, indexNumber, email, address;
-    public List<Double> grades = new ArrayList<>();
+    private static int nextIndexNumber = 1;
+    private String indexNumber;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String address;
+    private Date dateOfBirth;
+    private StudyProgramme programme;
+    private List<Grade> grades;
+    private int currentSemester;
 
-    public Student(String fname, String lname, String indexNumber, String email, String address) {
-        this.fname = fname;
-        this.lname = lname;
-        this.indexNumber = indexNumber;
+    public Student(String firstName, String lastName, String email, String address, String phoneNumber, Date dateOfBirth) {
+        this.indexNumber = "s" + nextIndexNumber++;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.grades = new ArrayList<>();
+        this.currentSemester = 1;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "fname='" + fname + '\'' +
-                ", lname='" + lname + '\'' +
-                ", indexNumber='" + indexNumber + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                ", grades=" + grades +
-                '}';
+    public void enrollStudyProgramme(StudyProgramme programme) {
+        this.programme = programme;
     }
 
-    public double obliczSrednia() {
-        double average;
-        if (grades.isEmpty()) {
-            throw new IllegalArgumentException("Brakuje ocen");
-        }else if (grades.size() > 20) {
-            throw new IllegalArgumentException("Nie można dodać więcej niż 20 ocen");
+    public void addGrade(int value, String subject) {
+        Grade grade = new Grade(value, subject);
+        grades.add(grade);
+    }
+
+    public void promoteToNextSemester() {
+        if (currentSemester < programme.getTotalSemesters()) {
+            currentSemester++;
         } else {
-
-            double suma = 0;
-            for (Double grade : grades) {
-                suma += grade;
-            }
-            //sumujemy wszystkie liczby w ArrayList za pomoca pętli i następnie dzielimy przez liczbę ocen
-            average = suma / grades.size();
+            // Ustawienie statusu na absolwenta
         }
-        return average;
     }
-public void addGrade(double grade) {
-    this.grades.add(grade);
-}
+
+    public boolean isGraduate() {
+        return currentSemester == programme.getTotalSemesters();
+    }
+
+    public void displayInfo() {
+        // Wyświetlenie informacji o studencie
+    }
 }

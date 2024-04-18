@@ -1,28 +1,18 @@
+import java.util.Date;
+
 public class Main {
     public static void main(String[] args) {
-        // Tworzenie kont użytkowników
-        User guest1 = new User("guest1@gmail.com");
-        User guest2 = new User("guest2@gmail.com");
-        User user1 = new User("Ania", "Kowal", "ania.kowal@example.com", "password123");
+        Student s=new Student("John", "Doe", "doe@wp.pl", "Warsaw, Zlota 12", "333-322-222", new Date(1980, 1, 1));
+        //student get the indexNumber automatically assigned
+        StudyProgramme it=new StudyProgramme("IT", "AAA", 7, 5);
+        //7 is the number of semesters, 5 - number of possible ITN's before being allowed to be promoted to next semester
+        s.enrollStudyProgramme(it);
+        //we assign the student to the first semester by default
+        s.addGrade(5, "PGO");
+        s.addGrade(2, "APBD");
 
-        // Aktualizacja konta gościa do użytkownika
-        guest1.aktualizujDoZarejestrowanegoUzytkownika("Kasia", "Kowal", "password456");
-
-        // Tworzenie produktów
-        Product product1 = new Product("Laptop", 1500.00, "ABC123");
-        Product product2 = new Product("Telefon", 800.00, "DEF456", 5);
-        Product product3 = new Product("Glosnik", 100.00, "GHI789");
-
-        // Zmiana ceny produktu
-        product1.setCena(1600.00);
-
-        // Ustawienie liczby sztuk na 5
-        product3.setLiczbaSztuk(5);
-
-        // Wyświetlenie informacji o produktach
-        System.out.println("Informacje o produktach:");
-        System.out.println(product1);
-        System.out.println(product2);
-        System.out.println(product3);
+        Students.promoteAllStudents();
+        //We check the current semester for each student
+        Students.displayInfoAboutAllStudents();
     }
 }
