@@ -1,4 +1,4 @@
-class User {
+public class User {
     private String imie;
     private String nazwisko;
     private String email;
@@ -29,3 +29,4 @@ class User {
         }
     }
 }
+
