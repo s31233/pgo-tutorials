@@ -1,0 +1,152 @@
+public class Main {
+    public static void main(String[] args) {
+        Museum museum = new Museum("Muzeum", "Muzealna 12");
+
+        Painting painting1 = new Painting("Krzyk", "Przed kolokwium", "Ekspresjonizm", "Edvard Munch", 1893);
+        museum.addExhibit(painting1);
+
+        Sculpture sculpture1 = new Sculpture("Wenus", "Rzeźba afrodyty", "Kamień", "XYZ", 100);
+        museum.addExhibit(sculpture1);
+
+        Artifact artifact1 = new Artifact("Moneta", "Jest stara", "Złoto", "Przed naszą erą");
+        museum.addExhibit(artifact1);
+
+        museum.showLastMaintenanceDate();
+
+        System.out.println("Removing an exhibit:");
+        museum.removeExhibit(sculpture1);
+        museum.showLastMaintenanceDate();
+    }
+}
+
+
+import java.util.ArrayList;
+public class Museum {
+    private String name;
+    private String address;
+    private ArrayList<Exhibit> exhibits;
+
+    public Museum(String name, String address) {
+        this.name = name;
+        this.address = address;
+        this.exhibits = new ArrayList<>();
+    }
+
+    public void addExhibit(Exhibit exhibit) {
+        for (Exhibit e : exhibits) {
+            if (e.getIdNumber().equals(exhibit.getIdNumber())) {
+                throw new IllegalArgumentException("Exhibit with the same idNumber  already exists in the museum.");
+            }
+        }
+        exhibits.add(exhibit);
+    }
+
+    public void removeExhibit(Exhibit exhibit) {
+        if (!exhibits.contains(exhibit)) {
+            throw new IllegalArgumentException("Exhibit not found in the museum.");
+        }
+        exhibits.remove(exhibit);
+    }
+
+    public void showLastMaintenanceDate() {
+        for (Exhibit e : exhibits) {
+            System.out.println("Exhibit: " + e.getName() + ", Last Maintenance Date: " + e.getLastMaintenanceDate());
+        }
+    }
+}
+
+import java.util.Date;
+public class Exhibit {
+    private static int exhibitCount = 0;
+    private String idNumber;
+    private Date lastMaintenanceDate;
+    private String name;
+    private String description;
+
+    public Exhibit(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.lastMaintenanceDate = new Date();
+        this.idNumber = "exhibit#" + ++exhibitCount;
+    }
+
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public Date getLastMaintenanceDate() {
+        return lastMaintenanceDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void showInfo() {
+        System.out.println("Exhibit Info:");
+        System.out.println("ID Number: " + idNumber);
+        System.out.println("Name: " + name);
+        System.out.println("Description: " + description);
+        System.out.println("Last Maintenance Date: " + lastMaintenanceDate);
+    }
+}
+
+public class Painting extends Exhibit {
+    private String style;
+    private String author;
+    private int year;
+
+    public Painting(String name, String description, String style, String author, int year) {
+        super(name, description);
+        this.style = style;
+        this.author = author;
+        this.year = year;
+    }
+
+    @Override
+    public void showInfo() {
+        super.showInfo();
+        System.out.println("Style: " + style);
+        System.out.println("Author: " + author);
+        System.out.println("Year: " + year);
+    }
+}
+
+public class Sculpture extends Exhibit {
+    private String material;
+    private String author;
+    private int year;
+
+    public Sculpture(String name, String description, String material, String author, int year) {
+        super(name, description);
+        this.material = material;
+        this.author = author;
+        this.year = year;
+    }
+
+    @Override
+    public void showInfo() {
+        super.showInfo();
+        System.out.println("Material: " + material);
+        System.out.println("Author: " + author);
+        System.out.println("Year: " + year);
+    }
+}
+
+public class Artifact extends Exhibit {
+     private String material;
+     private String timePeriod;
+
+     public Artifact(String name, String description, String material, String timePeriod) {
+         super(name, description);
+         this.material = material;
+         this.timePeriod = timePeriod;
+     }
+
+     @Override
+     public void showInfo() {
+         super.showInfo();
+         System.out.println("Material: " + material);
+         System.out.println("Time Period: " + timePeriod);
+     }
+ }
