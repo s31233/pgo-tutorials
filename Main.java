@@ -1,141 +1,75 @@
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Calendar;
+//Zadanie 3
 public class Main {
     public static void main(String[] args) {
-
-        Airfield airfield = new Airfield("Test Airfield", 30, "Test Address");
-
-        Helicopter helicopter1 = new Helicopter("WPI1", "Red", "Helicopter1", 2021, 5, 6000);
-        Helicopter helicopter2 = new Helicopter("WU1", "Pink", "Helicopter2", 2015, 4, 4000);
-        Drone drone1 = new Drone("WE1", "Gray", "Drone1", 2022, 6, true);
-        Glider glider1 = new Glider("WT1", "Black", "Glider1", 2016, 13);
-
-        airfield.addAerialVehicle(helicopter1);
-        airfield.addAerialVehicle(helicopter2);
-        airfield.addAerialVehicle(drone1);
-        airfield.addAerialVehicle(glider1);
-
-        helicopter1.displayInfo();
-        helicopter2.displayInfo();
-        drone1.displayInfo();
-        glider1.displayInfo();
-
-        airfield.removeAerialVehicle(helicopter1);
-        airfield.removeAerialVehicle(drone1);
-
-        airfield.addAerialVehicle(helicopter2);
-        airfield.addAerialVehicle(helicopter1);
+        Manager manager = new Manager("Jan", "Kowalski", 1990, 2010, "Pjatk", 2000d, 100d);
+        System.out.println(manager);
     }
 }
-class AerialVehicle {
-    private String registrationNumber;
-    private String color;
-    private String model;
-    private int yearOfProduction;
+//Abstrakcyjna klasa Person
+abstract class Person {
+    protected String firstName;
+    protected String lastName;
+    protected int birthdayYear;
 
-    public AerialVehicle(String registrationNumber, String color, String model, int yearOfProduction) {
-        this.registrationNumber = registrationNumber;
-        this.color = color;
-        this.model = model;
-        this.yearOfProduction = yearOfProduction;
+    public Person(String firstName, String lastName, int birthdayYear) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdayYear = birthdayYear;
     }
 
-    public String getRegistrationNumber() {
-        return registrationNumber;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getColor() {
-        return color;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getModel() {
-        return model;
+    public abstract int getAge();
+}
+//Klasa Employee
+class Employee extends Person {
+    private int hireDate;
+    private String companyName;
+    private double salary;
+
+    public Employee(String firstName, String lastName, int birthdayYear, int hireDate, String companyName, double salary) {
+        super(firstName, lastName, birthdayYear);
+        this.hireDate = hireDate;
+        this.companyName = companyName;
+        this.salary = salary;
     }
 
-    public int getYearOfProduction() {
-        return yearOfProduction;
+    public int getJobSeniority() {
+        return Calendar.getInstance().get(Calendar.YEAR) - hireDate;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    @Override
+    public int getAge() {
+        return Calendar.getInstance().get(Calendar.YEAR) - birthdayYear;
     }
 }
+//Klasa Manager
+class Manager extends Employee {
+    private double bonus;
 
-class Helicopter extends AerialVehicle {
-    private int rotorCount;
-    private int maxAttitude;
-
-    public Helicopter(String registrationNumber, String color, String model, int yearOfProduction, int rotorCount, int maxAttitude) {
-        super(registrationNumber, color, model, yearOfProduction);
-        this.rotorCount = rotorCount;
-        this.maxAttitude = maxAttitude;
+    public Manager(String firstName, String lastName, int birthdayYear, int hireDate, String companyName, double salary, double bonus) {
+        super(firstName, lastName, birthdayYear, hireDate, companyName, salary);
+        this.bonus = bonus;
     }
 
-    public void displayInfo() {
-        System.out.println("Helicopter: " + getModel() + " (Registration Number: " + getRegistrationNumber() + ")");
-    }
-}
-
-class Drone extends AerialVehicle {
-    private double batteryLife;
-    private boolean cameraEquipped;
-
-    public Drone(String registrationNumber, String color, String model, int yearOfProduction, double batteryLife, boolean cameraEquipped) {
-        super(registrationNumber, color, model, yearOfProduction);
-        this.batteryLife = batteryLife;
-        this.cameraEquipped = cameraEquipped;
+    @Override
+    public double getSalary() {
+        return super.getSalary() + bonus;
     }
 
-    public void displayInfo() {
-        System.out.println("Drone: " + getModel() + " (Registration Number: " + getRegistrationNumber() + ")");
+    @Override
+    public String toString() {
+        return "Manager with lastName " + getLastName() + " and age " + getAge() + " has salary " + getSalary();
     }
 }
-
-class Glider extends AerialVehicle {
-    private double wingLength;
-
-    public Glider(String registrationNumber, String color, String model, int yearOfProduction, double wingLength) {
-        super(registrationNumber, color, model, yearOfProduction);
-        this.wingLength = wingLength;
-    }
-
-    public void displayInfo() {
-        System.out.println("Glider: " + getModel() + " (Registration Number: " + getRegistrationNumber() + ")");
-    }
-}
-
-class Airfield {
-    private String name;
-    private int capacity;
-    private String address;
-    private List<AerialVehicle> aerialVehicles;
-
-    public Airfield(String name, int capacity, String address) {
-        this.name = name;
-        this.capacity = capacity;
-        this.address = address;
-        this.aerialVehicles = new ArrayList<>();
-    }
-
-    public void addAerialVehicle(AerialVehicle aerialVehicle) {
-        if (aerialVehicles.size() >= capacity) {
-            System.out.println("Cannot add vehicle.");
-            return;
-        }
-        for (AerialVehicle vehicle : aerialVehicles) {
-            if (vehicle.getRegistrationNumber().equals(aerialVehicle.getRegistrationNumber())) {
-                System.out.println("Vehicle with the same registration number already exists.");
-                return;
-            }
-        }
-        aerialVehicles.add(aerialVehicle);
-        System.out.println("Vehicle added.");
-    }
-
-    public void removeAerialVehicle(AerialVehicle aerialVehicle) {
-        if (!aerialVehicles.contains(aerialVehicle)) {
-            System.out.println("Vehicle not found.");
-            return;
-        }
-        aerialVehicles.remove(aerialVehicle);
-        System.out.println("Vehicle removed.");
-    }
-}
-
