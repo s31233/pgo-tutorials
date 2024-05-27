@@ -1,75 +1,72 @@
-import java.util.Calendar;
-//Zadanie 3
 public class Main {
     public static void main(String[] args) {
-        Manager manager = new Manager("Jan", "Kowalski", 1990, 2010, "Pjatk", 2000d, 100d);
-        System.out.println(manager);
+        Car car = new Car("Toyota", "Corolla", 2020, 15000, 500);
+        Truck truck = new Truck("Volvo", "FH16", 2019, 20000, 1000, 10);
+
+        car.displayInfo();
+        System.out.println("Fuel Efficiency: " + car.calculateFuelEfficiency() + " miles per gallon");
+        System.out.println();
+
+        truck.displayInfo();
+        System.out.println("Fuel Efficiency: " + truck.calculateFuelEfficiency() + " miles per gallon");
     }
 }
-//Abstrakcyjna klasa Person
-abstract class Person {
-    protected String firstName;
-    protected String lastName;
-    protected int birthdayYear;
+// klasa Vehicle
+abstract class Vehicle {
+    protected String make;
+    protected String model;
+    protected int year;
 
-    public Person(String firstName, String lastName, int birthdayYear) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthdayYear = birthdayYear;
+    public Vehicle(String make, String model, int year) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public abstract double calculateFuelEfficiency();
+
+    public void displayInfo() {
+        System.out.println("Make: " + make);
+        System.out.println("Model: " + model);
+        System.out.println("Year: " + year);
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public abstract int getAge();
 }
-//Klasa Employee
-class Employee extends Person {
-    private int hireDate;
-    private String companyName;
-    private double salary;
+//klasa Car
+class Car extends Vehicle{
+    private double milesDriven;
+    private double fuelConsumed;
 
-    public Employee(String firstName, String lastName, int birthdayYear, int hireDate, String companyName, double salary) {
-        super(firstName, lastName, birthdayYear);
-        this.hireDate = hireDate;
-        this.companyName = companyName;
-        this.salary = salary;
+
+    public Car(String make, String model, int year, double milesDriven, double fuelConsumed) {
+        super(make, model, year);
+        this.milesDriven = milesDriven;
+        this.fuelConsumed = fuelConsumed;
     }
 
-    public int getJobSeniority() {
-        return Calendar.getInstance().get(Calendar.YEAR) - hireDate;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
 
     @Override
-    public int getAge() {
-        return Calendar.getInstance().get(Calendar.YEAR) - birthdayYear;
+    public double calculateFuelEfficiency() {
+        return milesDriven / fuelConsumed;
     }
 }
-//Klasa Manager
-class Manager extends Employee {
-    private double bonus;
+//klasa Truck
+class Truck extends Vehicle{
+    private double milesDriven;
+    private double fuelConsumed;
+    private double cargoWeight;
 
-    public Manager(String firstName, String lastName, int birthdayYear, int hireDate, String companyName, double salary, double bonus) {
-        super(firstName, lastName, birthdayYear, hireDate, companyName, salary);
-        this.bonus = bonus;
+
+    public Truck(String make, String model, int year, double milesDriven, double fuelConsumed, double cargoWeight) {
+        super(make, model, year);
+        this.milesDriven = milesDriven;
+        this.fuelConsumed = fuelConsumed;
+        this.cargoWeight = cargoWeight;
     }
 
-    @Override
-    public double getSalary() {
-        return super.getSalary() + bonus;
-    }
 
     @Override
-    public String toString() {
-        return "Manager with lastName " + getLastName() + " and age " + getAge() + " has salary " + getSalary();
+    public double calculateFuelEfficiency() {
+        return milesDriven / (fuelConsumed + (cargoWeight * 0.5));
     }
 }
