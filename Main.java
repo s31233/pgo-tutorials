@@ -1,45 +1,111 @@
+import java.util.ArrayList;
+import java.util.List;
+//zadanie 1
 public class Main {
     public static void main(String[] args) {
-        try {
-            // Tworzenie pociągu
-            Train train = new Train("T001", "WP133", 300.5f, 20000, 2022);
 
-            // Tworzenie wagonów
-            Wagon solidWagon = new SolidWagon("W001", 100, 5000);
-            Wagon liquidWagon = new LiquidWagon("W002", 200, 7000);
-            Wagon tempControlledWagon = new TemperatureControlledWagon("W003", 150, 6000);
-            Wagon dangerousWagon = new DangerousWagon("W004", 120, 8000);
+        double radius = 3d;
+        Figure circle = new Circle(radius);
 
-            // Dodawanie wagonów do pociągu
-            train.addWagon(solidWagon);
-            train.addWagon(liquidWagon);
-            train.addWagon(tempControlledWagon);
-            train.addWagon(dangerousWagon);
+        double baseSide = 10d;
+        double side = 5d;
+        double height = 8d;
+        Figure parallelogram = new Parallelogram(baseSide, side, height);
 
-            // Załadowywanie towarów do wagonów
-            train.loadCargo("W001", 4000, false, false); // Załaduj 4000 kg stałego towaru do SolidWagon
-            train.loadCargo("W002", 5000, true, false);  // Załaduj 5000 kg ciekłego towaru do LiquidWagon
-            train.loadCargo("W003", 3000, false, false); // Załaduj 3000 kg stałego towaru wymagającego temperatury do TemperatureControlledWagon
-            train.loadCargo("W004", 6000, false, true);  // Załaduj 6000 kg niebezpiecznego towaru do DangerousWagon
+        double sideA = 15d;
+        double sideB = 10;
+        Figure rectangle = new Rectangle(sideA, sideB);
 
-            // Próba załadowania niezgodnego towaru
-            try {
-                train.loadCargo("W003", 1000, true, false); // Błąd: Liquid towar do TemperatureControlledWagon
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+        List<Figure> figures = new ArrayList<>(3);
+        figures.add(circle);
+        figures.add(parallelogram);
+        figures.add(rectangle);
 
-            // Usuwanie wagonu z pociągu
-            Wagon removedWagon = train.removeWagon("W002");
-            if (removedWagon != null) {
-                System.out.println("Wagon " + removedWagon.getId() + " został odłączony.");
-            } else {
-                System.out.println("Wagon nie znaleziony.");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        for (Figure figure : figures) {
+            System.out.println(figure.getType());
+            System.out.println("Area: " + figure.getArea() + " units.");
+            System.out.println("Perimeter: " + figure.getPerimeter() + " units.\n");
         }
     }
 }
+//Klasa Circle implementuje interfejs Figure
+class Circle  implements Figure{
+    private double radius;
 
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public double getPerimeter() {
+        return 2 * Math.PI * radius;
+    }
+
+    @Override
+    public double getArea() {
+        return Math.PI * radius * radius;
+    }
+
+    @Override
+    public String getType() {
+        return "Circle";
+    }
+}
+//Klasa Rectangle implementuje interfejs Figure
+class Rectangle implements Figure {
+    private double sideA;
+    private double sideB;
+
+    public Rectangle(double sideA, double sideB) {
+        this.sideA = sideA;
+        this.sideB = sideB;
+    }
+
+    @Override
+    public double getPerimeter() {
+        return 2 * (sideA + sideB);
+    }
+
+    @Override
+    public double getArea() {
+        return sideA * sideB;
+    }
+
+    @Override
+    public String getType() {
+        return "Rectangle";
+    }
+}
+//Klasa Parallelogram implementuje interfejs Figure
+class Parallelogram implements Figure {
+    private double baseSide;
+    private double side;
+    private double height;
+
+    public Parallelogram(double baseSide, double side, double height) {
+        this.baseSide = baseSide;
+        this.side = side;
+        this.height = height;
+    }
+
+    @Override
+    public double getPerimeter() {
+        return 2 * (baseSide + side);
+    }
+
+    @Override
+    public double getArea() {
+        return baseSide * height;
+    }
+
+    @Override
+    public String getType() {
+        return "Parallelogram";
+    }
+}
+//Interfejs Figure
+interface Figure {
+    double getPerimeter();
+    double getArea();
+    String getType();
+}
